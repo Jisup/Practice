@@ -1,7 +1,7 @@
-export default function Nodes({ $app, initialState }) {
+export default function Nodes({ $app, initialState, onClick, onBackClick }) {
   this.state = initialState;
-  this.$target = document.createElement('div');
-  this.$target.className = 'Nodes';
+  this.$target = document.createElement("div");
+  this.$target.className = "Nodes";
   $app.appendChild(this.$target);
 
   this.setState = (nextState) => {
@@ -9,19 +9,49 @@ export default function Nodes({ $app, initialState }) {
     this.render();
   };
 
+  this.onClick = onClick;
+  this.onBackClick = onBackClick;
+
   this.render = () => {
-    if (this.state.node) {
-      this.state.node.map((node, index) => {
-        const iconPath = node.type === 'DIRECTORY' ? './assets/directory.png' : './assets/file.png';
-        this.$target.innerHTML = `
-        <div class="Node">
-          <img src="${iconPath}" />
-          <div>${node.name}</div>
-        </div>
-      `;
-      });
+    if (this.state.nodes) {
+      const nodesTemplate = this.state.nodes
+        .map((node) => {
+          const iconPath =
+            node.type === "DIRECTORY"
+              ? "./assets/directory.png"
+              : "./assets/file.png";
+          return `
+            <div class="Node" data-node-id="${node.id}">
+              <img src="${iconPath}" />
+              <div>${node.name}</div>
+            </div>
+          `;
+        })
+        .join("");
+
+      this.$target.innerHTML = !this.state.isRoot
+        ? `<div class="Node">
+            <img src="./assets/prev.png" />
+          </div>
+          ${nodesTemplate}`
+        : nodesTemplate;
     }
   };
+
+  this.$target.addEventListener("click", (e) => {
+    const $node = e.target.closest(".Node");
+    if ($node) {
+      const { nodeId } = $node.dataset;
+      if (!nodeId) {
+        this.onBackClick();
+      }
+
+      const selectedNode = this.state.nodes.find((node) => node.id === nodeId);
+      if (selectedNode) {
+        this.onClick(selectedNode);
+      }
+    }
+  });
 
   this.render();
 }
