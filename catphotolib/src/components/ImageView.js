@@ -21,6 +21,8 @@ export default function ImageView({ $app, initialState, onClick }) {
     this.$target.style.display = this.state ? "block" : "none";
   };
 
+  this.onClick = onClick;
+
   this.$target.addEventListener("click", () => {
     this.onClick();
   });

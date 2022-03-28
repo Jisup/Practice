@@ -19,26 +19,33 @@ export default function App($app) {
     $app,
     initialState: this.state.depth,
     onClick: async (index) => {
+      if (index === this.state.depth.length - 1) {
+        return;
+      }
+
+      this.setState({
+        ...this.state,
+        isLoading: true,
+      });
+
       if (index === null) {
-        //초기 설정된 root 노드 데이터 활용
         this.setState({
           ...this.state,
           isRoot: true,
+          isLoading: false,
           depth: [],
           nodes: cache.root,
         });
         return;
       }
-      if (index === this.state.depth.length - 1) {
-        return;
-      }
+
       const indexState = { ...this.state };
       const indexDepth = indexState.depth.slice(0, index + 1);
       const indexNodeId = indexState.depth[index].id;
 
-      //무조건 방문했으므로 cache 데이터 활용
       this.setState({
         ...indexState,
+        isLoading: false,
         depth: indexDepth,
         nodes: cache[indexNodeId],
       });
@@ -48,31 +55,35 @@ export default function App($app) {
     $app,
     initialState: [],
     onClick: async (node) => {
-      console.log(node);
+      this.setState({
+        ...this.state,
+        isLoading: true,
+      });
       try {
         if (node.type === "DIRECTORY") {
-          //다음 디렉토리를 방문했는지 판별
           if (cache[node.id]) {
-            //방문한 경우 cache 데이터 활용
             this.setState({
               ...this.state,
               isRoot: false,
+              isLoading: false,
               depth: [...this.state.depth, node],
               nodes: cache[node.id],
             });
           } else {
-            //방문하지 않는경우 요청
             const nextNodes = await request(node.id);
             this.setState({
               ...this.state,
               isRoot: false,
+              isLoading: false,
               depth: [...this.state.depth, node],
               nodes: nextNodes,
             });
+            cache[node.id] = nextNodes;
           }
         } else if (node.type === "FILE") {
           this.setState({
             ...this.state,
+            isLoading: false,
             imageFilePath: node.filePath,
           });
         }
@@ -81,6 +92,10 @@ export default function App($app) {
       }
     },
     onBackClick: async () => {
+      this.setState({
+        ...this.state,
+        isLoading: true,
+      });
       const nextState = { ...this.state };
       nextState.depth.pop();
       const prevNodeId =
@@ -91,13 +106,13 @@ export default function App($app) {
         this.setState({
           ...this.state,
           isRoot: true,
-          //초기 설정된 root 노드 데이터 활용
+          isLoading: false,
           nodes: cache.root,
         });
       } else {
         this.setState({
           ...this.state,
-          //이전 노드를 무조건 방문 했으므로 활용
+          isLoading: false,
           nodes: cache[prevNodeId],
         });
       }
@@ -130,13 +145,17 @@ export default function App($app) {
   };
 
   const init = async () => {
+    this.setState({
+      ...this.state,
+      isLoading: true,
+    });
     const rootNodes = await request();
     this.setState({
       ...this.state,
       isRoot: true,
+      isLoading: false,
       nodes: rootNodes,
     });
-    //root 노드 데이터 저장
     cache.root = rootNodes;
   };
   init();
