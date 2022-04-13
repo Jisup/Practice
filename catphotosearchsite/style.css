@@ -1,0 +1,292 @@
+@font-face {
+  font-family: "Goyang";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Goyang.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body * {
+  font-family: Goyang;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+#App {
+  margin: 1.5em auto;
+  max-width: 1200px;
+  column-gap: 1.5em;
+}
+
+.SearchSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.SearchInput {
+  width: 100%;
+  font-size: 40px;
+  padding: 10px 15px;
+}
+
+.SearchRandom {
+  margin: 0 0 0 0.5em;
+  padding: 0.5em;
+  width: 7.777%;
+  font-size: 15px;
+  border-radius: 15px;
+}
+
+.SearchRandom > span {
+  font-size: 1.5em;
+}
+
+.SearchKeyword {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.SearchKeyword > .Keyword {
+  padding: 0.125em 0.25em;
+  border-radius: 15px;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.Keyword:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  color: white;
+}
+
+.SearchResult {
+  margin-top: 10px;
+  display: grid;
+  /* 검색 결과 미디어 쿼리 부분은 아래 부분의 repeat 을 수정한다 */
+  grid-template-columns: repeat(4, minmax(250px, 1fr));
+  grid-gap: 10px;
+}
+
+.SearchError {
+  text-align: center;
+  font-weight: bold;
+  font-size: 72px;
+}
+
+@media (max-width: 992px) {
+  .SearchRandom {
+    width: 9%;
+    font-size: 12px;
+  }
+  .SearchRandom > span {
+    font-size: 1.25em;
+  }
+  .SearchResult {
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+  }
+  .SearchError {
+    font-size: 56px;
+  }
+}
+@media (max-width: 768px) {
+  .SearchRandom {
+    width: 9%;
+    font-size: 8px;
+  }
+  .SearchRandom > span {
+    font-size: 1em;
+  }
+  .SearchResult {
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+  }
+  .SearchError {
+    font-size: 42px;
+  }
+  .ImageInfo .content-wrapper {
+    width: 100%;
+  }
+}
+@media (max-width: 576px) {
+  .SearchRandom {
+    width: 7%;
+    font-size: 6px;
+  }
+  .SearchRandom > span {
+    font-size: 0.75em;
+  }
+  .SearchResult {
+    grid-template-columns: repeat(1, minmax(250px, 1fr));
+  }
+  .SearchError {
+    font-size: 24px;
+  }
+}
+
+.SearchResult img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.SearchResult .item {
+  position: relative;
+  background-color: #eee;
+  display: inline-block;
+  margin: 1em 0 1em 0;
+  width: 100%;
+}
+
+.ImageInfo {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.ImageInfo.fadein {
+  animation: fadein 1s;
+}
+
+.ImageInfo.fadeout {
+  animation: fadeout 1s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.ImageInfo .title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ImageInfo .title,
+.ImageInfo .description {
+  padding: 5px;
+}
+
+.ImageInfo .content-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+
+.ImageInfo .content-wrapper img {
+  width: 100%;
+}
+
+.Loading {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+
+  font-weight: bold;
+  font-size: 36px;
+}
+
+.Loading > div {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.DarkModeToggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 26px;
+
+  margin-bottom: 1em;
+}
+
+.DarkModeToggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000;
+    color: white;
+  }
+}
+
+body[data-theme="dark"] {
+  background-color: #000;
+  color: white;
+}
