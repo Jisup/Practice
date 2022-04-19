@@ -4,18 +4,16 @@ export default function SearchResult({ $app, initialState }) {
   this.$target.className = "SearchResult";
   $app.appendChild(this.$target);
 
-  this.data = initialData;
-
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
   };
 
   this.render = () => {
-    this.$target.innerHTML = this.data
+    this.$target.innerHTML = this.state.data
       .map(
-        (cat) => `
-        <div class="item">
+        (cat, index) => `
+        <div class="item" data-index="${index}">
           <img src=${cat.url} alt=${cat.name} />
         </div>
         `
