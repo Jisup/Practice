@@ -1,3 +1,5 @@
+import LazyLoad from "../lib/LazyLoading.js";
+
 export default function SearchResult({ $app, initialState }) {
   this.state = initialState;
   this.$target = document.createElement("div");
@@ -7,6 +9,7 @@ export default function SearchResult({ $app, initialState }) {
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
+    LazyLoad();
   };
 
   this.render = () => {
@@ -14,7 +17,8 @@ export default function SearchResult({ $app, initialState }) {
       .map(
         (cat, index) => `
         <div class="item" data-index="${index}">
-          <img src=${cat.url} alt=${cat.name} />
+          <img class="lazy" data-src=${cat.url} alt=${cat.name} />
+          <div>${cat.name}</div>
         </div>
         `
       )
@@ -30,4 +34,5 @@ export default function SearchResult({ $app, initialState }) {
   });
 
   this.render();
+  LazyLoad();
 }
