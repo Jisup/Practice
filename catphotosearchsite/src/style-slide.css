@@ -34,6 +34,36 @@
   object-fit: cover;
 }
 
+@media (max-width: 992px) {
+  .Slides > li {
+    padding: 0.495em;
+  }
+  .Slides > li > img {
+    width: 155px;
+    height: 165px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Slides > li {
+    padding: 0.3em;
+  }
+  .Slides > li > img {
+    width: 122.5px;
+    height: 130px;
+  }
+}
+
+@media (max-width: 576px) {
+  .Slides > li {
+    padding: 0.2em;
+  }
+  .Slides > li > img {
+    width: 90px;
+    height: 95px;
+  }
+}
+
 .prev,
 .next {
   cursor: pointer;

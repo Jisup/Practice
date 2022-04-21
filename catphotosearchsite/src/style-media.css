@@ -12,13 +12,6 @@
   .SearchError {
     font-size: 56px;
   }
-  .Slides > li {
-    padding: 0.495em;
-  }
-  .Slides > li > img {
-    width: 155px;
-    height: 165px;
-  }
 }
 @media (max-width: 768px) {
   .SearchRandom {
@@ -37,13 +30,6 @@
   .ImageInfo .content-wrapper {
     width: 100%;
   }
-  .Slides > li {
-    padding: 0.3em;
-  }
-  .Slides > li > img {
-    width: 122.5px;
-    height: 130px;
-  }
 }
 @media (max-width: 576px) {
   .SearchRandom {
@@ -58,13 +44,6 @@
   }
   .SearchError {
     font-size: 24px;
-  }
-  .Slides > li {
-    padding: 0.2em;
-  }
-  .Slides > li > img {
-    width: 90px;
-    height: 95px;
   }
 }
 
