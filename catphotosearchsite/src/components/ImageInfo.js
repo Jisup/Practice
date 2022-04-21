@@ -24,7 +24,8 @@ export default function ImageInfo({ $app, initialState, onBackClick }) {
             <div>성격: ${temperament}</div>
             <div>태생: ${origin}</div>
           </div>
-        </div>`;
+        </div>
+      `;
 
       this.$target.classList.add("fadein");
     }
@@ -33,15 +34,15 @@ export default function ImageInfo({ $app, initialState, onBackClick }) {
 
   this.onBackClick = onBackClick;
 
-  const fadeEffect = () => {
+  const fadeOutEffect = () => {
     this.$target.classList.add("fadeout");
-    const effect = setInterval(() => {
+    const fadeEffect = setInterval(() => {
       if (this.$target.classList.contains("fadein")) {
         this.$target.classList.remove("fadein");
       }
       if (this.$target.style.opacity == 0) {
         this.$target.classList.remove("fadeout");
-        clearInterval(effect);
+        clearInterval(fadeEffect);
         this.onBackClick();
       }
     }, 500);
@@ -49,14 +50,14 @@ export default function ImageInfo({ $app, initialState, onBackClick }) {
 
   this.$target.addEventListener("keyup", (e) => {
     if (e.keyCode === 27) {
-      fadeEffect();
+      fadeOutEffect();
     }
   });
 
   this.$target.addEventListener("click", (e) => {
     const $className = e.target.classList;
     if ($className.contains("ImageInfo") || $className.contains("close")) {
-      fadeEffect();
+      fadeOutEffect();
     }
   });
 

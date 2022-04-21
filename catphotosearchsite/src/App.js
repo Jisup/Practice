@@ -51,7 +51,10 @@ export default function App($app) {
 
         setLocalStorage(searchData);
 
-        var nextKeyword = [keyword, ...this.state.keyword];
+        var nextKeyword = [
+          keyword,
+          ...this.state.keyword.filter((word) => word != keyword),
+        ];
 
         if (nextKeyword.length > 5) {
           nextKeyword = nextKeyword.slice(0, 5);
@@ -209,16 +212,12 @@ export default function App($app) {
       loading: true,
     });
     try {
-      const storage = getLocalStorage();
-
-      if (!storage || !storage.data || !storage.data.length) {
-        return;
-      }
+      const initData = await request("random");
 
       this.setState({
         ...this.state,
-        data: storage.data,
-        loading: false,
+        banner: initData,
+        data,
       });
     } catch (e) {
       this.setState({
@@ -227,6 +226,18 @@ export default function App($app) {
       });
       throw new Error(e.message);
     }
+
+    const storage = getLocalStorage();
+
+    if (!storage || !storage.data || !storage.data.length) {
+      return;
+    }
+
+    this.setState({
+      ...this.state,
+      loading: false,
+      data: storage.data,
+    });
   };
   init();
 }
