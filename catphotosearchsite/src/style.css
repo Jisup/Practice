@@ -63,6 +63,31 @@ body * {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.ImageInfo.fadein {
+  animation: fadein 1s;
+}
+
+.ImageInfo.fadeout {
+  animation: fadeout 1s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .ImageInfo .title {
   display: flex;
   justify-content: space-between;

@@ -1,6 +1,6 @@
 import LazyLoad from "../lib/LazyLoading.js";
 
-export default function SearchResult({ $app, initialState }) {
+export default function SearchResult({ $app, initialState, onClick }) {
   this.state = initialState;
   this.$target = document.createElement("div");
   this.$target.className = "SearchResult";
@@ -13,24 +13,33 @@ export default function SearchResult({ $app, initialState }) {
   };
 
   this.render = () => {
-    this.$target.innerHTML = this.state.data
-      .map(
-        (cat, index) => `
-        <div class="item" data-index="${index}">
-          <img class="lazy" data-src=${cat.url} alt=${cat.name} />
-          <div>${cat.name}</div>
-        </div>
-        `
-      )
-      .join("");
+    if (this.state.data) {
+      this.$target.innerHTML = this.state.data
+        .map((cat, index) => {
+          return index < 4
+            ? `<div class="item" data-index=${index}>
+                <img src=${cat.url} alt="${cat.name}" title="${cat.name}"/>
+                <div>${cat.name}</div>
+              </div>`
+            : `<div class="item" data-index=${index}>
+                <img class="lazy" data-src=${cat.url} alt="${cat.name}" title="${cat.name}"/>
+                <div>${cat.name}</div>
+              </div>`;
+        })
+        .join("");
+    }
   };
 
   this.onClick = onClick;
 
   this.$target.addEventListener("click", (e) => {
-    const $searchItem = e.target.closest(".item");
-    const { index } = $searchItem.dataset;
-    this.onClick(this.state[index]);
+    const $item = e.target.closest(".item");
+
+    if ($item) {
+      const { index } = $item.dataset;
+      const itemId = this.state.data[parseInt(index, 10)].id;
+      this.onClick(index ? itemId : null);
+    }
   });
 
   this.render();

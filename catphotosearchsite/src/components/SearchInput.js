@@ -17,12 +17,10 @@ export default function SearchInput({ $app, onSearch, onClick }) {
 
   this.$target.focus();
 
+  this.render = () => {};
+
   this.onSearch = onSearch;
   this.onClick = onClick;
-
-  this.$input.addEventListener("click", (e) => {
-    e.target.value = "";
-  });
 
   this.$input.addEventListener("keyup", (e) => {
     if (e.keyCode === 13) {
@@ -30,7 +28,13 @@ export default function SearchInput({ $app, onSearch, onClick }) {
     }
   });
 
+  this.$input.addEventListener("click", (e) => {
+    e.target.value = "";
+  });
+
   this.$button.addEventListener("click", () => {
     this.onClick();
   });
+
+  this.render();
 }

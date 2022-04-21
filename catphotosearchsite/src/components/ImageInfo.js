@@ -1,4 +1,4 @@
-export default function ImageInfo({ $app, initialState }) {
+export default function ImageInfo({ $app, initialState, onBackClick }) {
   this.state = initialState;
   this.$target = document.createElement("div");
   this.$target.className = "ImageInfo";
@@ -10,8 +10,8 @@ export default function ImageInfo({ $app, initialState }) {
   };
 
   this.render = () => {
-    if (this.data.visible) {
-      const { name, url, temperament, origin } = this.data.image;
+    if (this.state.image) {
+      const { name, url, temperament, origin } = this.state.image;
 
       this.$target.innerHTML = `
         <div class="content-wrapper">
@@ -25,9 +25,40 @@ export default function ImageInfo({ $app, initialState }) {
             <div>태생: ${origin}</div>
           </div>
         </div>`;
+
+      this.$target.classList.add("fadein");
     }
     this.$target.style.display = this.state.visible ? "block" : "none";
   };
+
+  this.onBackClick = onBackClick;
+
+  const fadeEffect = () => {
+    this.$target.classList.add("fadeout");
+    const effect = setInterval(() => {
+      if (this.$target.classList.contains("fadein")) {
+        this.$target.classList.remove("fadein");
+      }
+      if (this.$target.style.opacity == 0) {
+        this.$target.classList.remove("fadeout");
+        clearInterval(effect);
+        this.onBackClick();
+      }
+    }, 500);
+  };
+
+  this.$target.addEventListener("keyup", (e) => {
+    if (e.keyCode === 27) {
+      fadeEffect();
+    }
+  });
+
+  this.$target.addEventListener("click", (e) => {
+    const $className = e.target.classList;
+    if ($className.contains("ImageInfo") || $className.contains("close")) {
+      fadeEffect();
+    }
+  });
 
   this.render();
 }
