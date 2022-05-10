@@ -1,0 +1,27 @@
+export default function ProductListPage({ $app, initialState }) {
+  this.state = initialState;
+  this.$target = document.createElement("div");
+  this.$target.className = "ProductListPage";
+  $app.appendChild(this.$target);
+
+  this.render = () => {
+    this.$target.innerHTML = `
+      <h1>상품목록</h1>
+      <ul>
+      ${this.state
+        .map((product) => {
+          return `
+            <li class="Product" data-product-id=${product.id}>
+              <img src="${product.imageUrl}"/>
+              <div class="Product__info">
+                <div>${product.name}</div>
+                <div>${product.price.toLocaleString()}원~</div>
+              </div>
+            </li>
+        `;
+        })
+        .join("")}
+      </ul>
+    `;
+  };
+}
