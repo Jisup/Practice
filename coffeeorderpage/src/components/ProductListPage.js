@@ -1,4 +1,4 @@
-export default function ProductListPage({ $app, initialState }) {
+export default function ProductListPage({ $app, initialState, onClick }) {
   this.state = initialState;
   this.$target = document.createElement("div");
   this.$target.className = "ProductListPage";
@@ -24,4 +24,15 @@ export default function ProductListPage({ $app, initialState }) {
       </ul>
     `;
   };
+
+  this.onClick = onClick;
+
+  this.$target.addEventListener("click", (e) => {
+    const $liItem = e.target.closest(".Product");
+    if ($liItem) {
+      const { productId } = $liItem.dataset;
+
+      this.onClick({ productId }, null, `/web/products/${productId}`);
+    }
+  });
 }
